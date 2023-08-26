@@ -39,3 +39,28 @@ $
 (env) $ curl 127.0.0.1:8000/hello
 {"hello":"world"}(env) $
 ```
+
+## 第２章
+
+- 本章以降では章ごとにディレクトリを作成し、その中で作業する
+
+### GET/POST
+
+```shell
+# サーバ側
+$ mkdir 2nd && cd 2nd
+$ python3.10 -m venv env
+$ source env/bin/activate
+(env) $ pip install fastapi==0.100.0 'uvicorn[standard]==0.22.0'
+(env) $ mkdir app
+(env) $ touch app/__init__.py
+(env) $ touch app/main.py
+(env) $ uvicorn app.main:app --reload
+
+# クライアント側
+$ curl -X GET 127.0.0.1:8000/wallets
+[{"wallet_id":1}]
+
+$ curl -X POST 127.0.0.1:8000/wallets
+{"wallet_id":2}
+```
