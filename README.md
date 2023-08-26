@@ -94,3 +94,28 @@ $ curl '127.0.0.1:8000/wallets/0'
 $ curl -X POST -H 'Content-Type: application/json' -d '{"name": "hoge"}' 127.0.0.1:8000/wallets
 {"wallet_id":1,"name":"hoge"}
 ```
+
+## 第3章 非同期処理
+
+### HTTPX
+
+```shell
+$ mkdir 3rd && cd 3rd
+$ python3.10 -m venv env
+$ source env/bin/activate
+(env) $ pip install httpx==0.24.1
+(env) $ mkdir app
+(env) $ touch app/__init__.py
+(env) $ touch app/main.py
+(env) $ python3 app/main.py 
+main started
+1 started
+2 started
+3 started
+3 finished: 0:00:00.328947
+1 finished: 0:00:00.440793
+2 finished: 0:00:00.392453
+result=['1:200', '2:200', '3:200']
+main finished: 0:00:00.444661
+(env) $
+```
