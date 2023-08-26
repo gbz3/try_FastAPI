@@ -152,3 +152,25 @@ $ for i in {0..2} ; do curl 127.0.0.1:8000/awesome_orgs &  done
 [200,200,200][200,200,200][200,200,200]
 $ 
 ```
+
+### pytest
+
+```shell
+(env) $ pip install pytest==7.4.0
+(env) $ mkdir app/tests
+(env) $ touch app/tests/__init__.py
+(env) $ touch app/tests/conftest.py
+(env) $ touch app/tests/test_main.py
+(env) $ pytest -v app
+==================================================================== test session starts ====================================================================
+platform linux -- Python 3.10.12, pytest-7.4.0, pluggy-1.3.0 -- ~/repos/github/try_FastAPI/3rd/env/bin/python3.10
+cachedir: .pytest_cache
+rootdir: ~/repos/github/try_FastAPI/3rd
+plugins: anyio-3.7.1
+collected 1 item                                                                                                                                            
+
+app/tests/test_main.py::test_get_async_hello PASSED                                                                                                   [100%]
+
+===================================================================== 1 passed in 0.03s =====================================================================
+(env) $ 
+```

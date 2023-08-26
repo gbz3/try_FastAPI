@@ -20,3 +20,7 @@ async def get_awesome_orgs() -> list[int]:
         api_3.status_code,
     ]
     return result
+
+@app.get("/async_hello")
+async def get_async_hello():
+    return {"hello": "world"}
