@@ -117,3 +117,38 @@ result=['1:200', '2:200', '3:200']
 main finished: 0:00:00.403467
 (env) $
 ```
+
+### Uvicorn
+
+```shell
+# サーバ側
+(env) $ pip install fastapi==0.100.0 'uvicorn[standard]==0.22.0'
+(env) $ mkdir app
+(env) $ touch app/__init__.py
+(env) $ touch app/main.py
+(env) $ uvicorn app.main:app --reload
+...
+started: 1
+started: 1
+started: 1
+started: 2
+started: 2
+started: 2
+started: 3
+started: 3
+started: 3
+finished
+finished
+INFO:     127.0.0.1:58594 - "GET /awesome_orgs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58592 - "GET /awesome_orgs HTTP/1.1" 200 OK
+finished
+INFO:     127.0.0.1:58576 - "GET /awesome_orgs HTTP/1.1" 200 OK
+
+# クライアント側
+$ for i in {0..2} ; do curl 127.0.0.1:8000/awesome_orgs &  done
+[1] 13277
+[2] 13278
+[3] 13279
+[200,200,200][200,200,200][200,200,200]
+$ 
+```
