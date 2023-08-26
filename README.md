@@ -63,4 +63,11 @@ $ curl -X GET 127.0.0.1:8000/wallets
 
 $ curl -X POST 127.0.0.1:8000/wallets
 {"wallet_id":2}
+
+# リクエストパラメータの定義
+$ curl 127.0.0.1:8000/wallets/1
+{"wallet_id":1}
+
+$ curl 127.0.0.1:8000/wallets/2
+{"wallet_id":2}
 ```
