@@ -74,4 +74,8 @@ $ curl 127.0.0.1:8000/wallets/2
 # エンドポイントの優先順位
 $ curl 127.0.0.1:8000/wallets/meta
 {"meta":{"count":2}}
+
+# クエリパラメータの取得
+$ curl '127.0.0.1:8000/wallets/1?include_histories=true'
+{"wallet_id":1,"histories":[{"history_id":1}]}
 ```

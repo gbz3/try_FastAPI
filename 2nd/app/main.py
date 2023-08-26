@@ -16,5 +16,9 @@ def get_walletsmeta() -> dict[str, dict[str, int]]:
 @app.get("/wallets/{wallet_id}")
 def get_wallets_id(
     wallet_id: int,
-) -> dict[str, int]:
-    return {"wallet_id": wallet_id}
+    include_histories: bool = False,
+) -> dict[str, int | list[dict[str, int]]]:
+    wallet = {"wallet_id": wallet_id}
+    if include_histories:
+        wallet["histories"] = [{"history_id": 1}]
+    return wallet
