@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Header
+from fastapi import FastAPI, Header, Path, Query
 
 app = FastAPI()
 @app.get("/wallets")
@@ -15,8 +15,8 @@ def get_walletsmeta() -> dict[str, dict[str, int]]:
 
 @app.get("/wallets/{wallet_id}")
 def get_wallets_id(
-    wallet_id: int,
-    include_histories: bool = False,
+    wallet_id: int = Path(..., ge=1),
+    include_histories: bool = Query(False),
     user_agent: str = Header(),
 ) -> dict[str, int | list[dict[str, int]]]:
     print("User-Agent: ", user_agent)

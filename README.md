@@ -85,4 +85,8 @@ $ curl '127.0.0.1:8000/wallets/1?include_histories=true'
 # ヘッダ情報の取得
 $ curl '127.0.0.1:8000/wallets/1?include_histories=true'
 {"wallet_id":1,"histories":[{"history_id":1}]}
+
+# リクエストパラメータのバリデーション
+$ curl '127.0.0.1:8000/wallets/0'
+{"detail":[{"type":"greater_than_equal","loc":["path","wallet_id"],"msg":"Input should be greater than or equal to 1","input":"0","ctx":{"ge":1},"url":"https://errors.pydantic.dev/2.3/v/greater_than_equal"}]}
 ```
