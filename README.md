@@ -89,4 +89,8 @@ $ curl '127.0.0.1:8000/wallets/1?include_histories=true'
 # リクエストパラメータのバリデーション
 $ curl '127.0.0.1:8000/wallets/0'
 {"detail":[{"type":"greater_than_equal","loc":["path","wallet_id"],"msg":"Input should be greater than or equal to 1","input":"0","ctx":{"ge":1},"url":"https://errors.pydantic.dev/2.3/v/greater_than_equal"}]}
+
+# リクエストデータとレスポンスデータの定義
+$ curl -X POST -H 'Content-Type: application/json' -d '{"name": "hoge"}' 127.0.0.1:8000/wallets
+{"wallet_id":1,"name":"hoge"}
 ```
