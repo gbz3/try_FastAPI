@@ -104,18 +104,16 @@ $ mkdir 3rd && cd 3rd
 $ python3.10 -m venv env
 $ source env/bin/activate
 (env) $ pip install httpx==0.24.1
-(env) $ mkdir app
-(env) $ touch app/__init__.py
-(env) $ touch app/main.py
-(env) $ python3 app/main.py 
+(env) $ touch main.py
+(env) $ python3 main.py 
 main started
 1 started
 2 started
 3 started
-3 finished: 0:00:00.328947
-1 finished: 0:00:00.440793
-2 finished: 0:00:00.392453
+3 finished: 0:00:00.301495
+2 finished: 0:00:00.354017
+1 finished: 0:00:00.403114
 result=['1:200', '2:200', '3:200']
-main finished: 0:00:00.444661
+main finished: 0:00:00.403467
 (env) $
 ```
