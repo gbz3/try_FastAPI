@@ -56,6 +56,9 @@ $ source env/bin/activate
 (env) $ touch app/__init__.py
 (env) $ touch app/main.py
 (env) $ uvicorn app.main:app --reload
+...
+User-Agent:  curl/7.81.0
+INFO:     127.0.0.1:46228 - "GET /wallets/1?include_histories=true HTTP/1.1" 200 OK
 
 # クライアント側
 $ curl -X GET 127.0.0.1:8000/wallets
@@ -76,6 +79,10 @@ $ curl 127.0.0.1:8000/wallets/meta
 {"meta":{"count":2}}
 
 # クエリパラメータの取得
+$ curl '127.0.0.1:8000/wallets/1?include_histories=true'
+{"wallet_id":1,"histories":[{"history_id":1}]}
+
+# ヘッダ情報の取得
 $ curl '127.0.0.1:8000/wallets/1?include_histories=true'
 {"wallet_id":1,"histories":[{"history_id":1}]}
 ```
