@@ -70,4 +70,8 @@ $ curl 127.0.0.1:8000/wallets/1
 
 $ curl 127.0.0.1:8000/wallets/2
 {"wallet_id":2}
+
+# エンドポイントの優先順位
+$ curl 127.0.0.1:8000/wallets/meta
+{"meta":{"count":2}}
 ```
