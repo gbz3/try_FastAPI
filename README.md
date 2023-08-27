@@ -202,4 +202,23 @@ $ curl -X GET 127.0.0.1:8000/api/wallets/1/histories
 
 $ curl -X GET 127.0.0.1:8000/api/wallets/1/histories/2
 {"history_id":2}
+
+$ curl -v -X GET 127.0.0.1:8000/api/wallets/0
+Note: Unnecessary use of -X or --request, GET is already inferred.
+*   Trying 127.0.0.1:8000...
+* Connected to 127.0.0.1 (127.0.0.1) port 8000 (#0)
+> GET /api/wallets/0 HTTP/1.1
+> Host: 127.0.0.1:8000
+> User-Agent: curl/7.81.0
+> Accept: */*
+> 
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 404 Not Found
+< date: Sun, 27 Aug 2023 00:25:24 GMT
+< server: uvicorn
+< content-length: 22
+< content-type: application/json
+< 
+* Connection #0 to host 127.0.0.1 left intact
+{"detail":"Not Found"}
 ```
