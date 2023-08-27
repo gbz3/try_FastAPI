@@ -241,3 +241,23 @@ Note: Unnecessary use of -X or --request, GET is already inferred.
 * Connection #0 to host 127.0.0.1 left intact
 {"message":"Not Found","details":{"Wallet":0}}
 ```
+
+### 初期化や後処理
+
+```bash
+(env) $ uvicorn app.main:app --reload
+INFO:     Will watch for changes in these directories: ['~/repos/github/try_FastAPI/4th']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [43501] using WatchFiles
+INFO:     Started server process [43503]
+INFO:     Waiting for application startup.
+startup!!!
+INFO:     Application startup complete.
+^CINFO:     Shutting down
+INFO:     Waiting for application shutdown.
+shutdown!!!
+INFO:     Application shutdown complete.
+INFO:     Finished server process [43503]
+INFO:     Stopping reloader process [43501]
+(env) $
+```
