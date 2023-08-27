@@ -6,7 +6,7 @@
 
 #### インストール
 
-```shell
+```bash
 $ python3.10 -m venv env
 $ source env/bin/activate
 (env) $ pip install fastapi==0.100.0 'uvicorn[standard]==0.22.0'
@@ -18,7 +18,7 @@ Successfully installed annotated-types-0.5.0 anyio-3.7.1 click-8.1.7 exceptiongr
 
 #### ローカルでの実行
 
-```shell
+```bash
 # サーバ側
 (env) $ uvicorn main:app
 INFO:     Started server process [8318]
@@ -46,7 +46,7 @@ $
 
 ### GET/POST
 
-```shell
+```bash
 # サーバ側
 $ mkdir 2nd && cd 2nd
 $ python3.10 -m venv env
@@ -99,7 +99,7 @@ $ curl -X POST -H 'Content-Type: application/json' -d '{"name": "hoge"}' 127.0.0
 
 ### HTTPX
 
-```shell
+```bash
 $ mkdir 3rd && cd 3rd
 $ python3.10 -m venv env
 $ source env/bin/activate
@@ -120,7 +120,7 @@ main finished: 0:00:00.403467
 
 ### Uvicorn
 
-```shell
+```bash
 # サーバ側
 (env) $ pip install fastapi==0.100.0 'uvicorn[standard]==0.22.0'
 (env) $ mkdir app
@@ -155,7 +155,7 @@ $
 
 ### pytest
 
-```shell
+```bash
 (env) $ pip install pytest==7.4.0
 (env) $ mkdir app/tests
 (env) $ touch app/tests/__init__.py
@@ -173,4 +173,33 @@ app/tests/test_main.py::test_get_async_hello PASSED                             
 
 ===================================================================== 1 passed in 0.03s =====================================================================
 (env) $ 
+```
+
+## 第４章  FastAPIの豊富な機能
+
+```bash
+# サーバ側
+$ mkdir 4th && cd 4th
+$ python3.10 -m venv env
+$ source env/bin/activate
+(env) $ pip install fastapi==0.100.0 'uvicorn[standard]==0.22.0'
+(env) $ mkdir -p app/api/wallets/histories
+(env) $ touch app/{__init__,main}.py
+(env) $ touch app/api/__init__.py
+(env) $ touch app/api/wallets/{__init__,schemas,views}.py
+(env) $ touch app/api/wallets/histories/{__init__,schemas,views}.py
+(env) $ uvicorn app.main:app --reload
+
+# クライアント側
+$ curl -X GET 127.0.0.1:8000/api/wallets
+[{"wallet_id":1},{"wallet_id":2}]
+
+$ curl -X GET 127.0.0.1:8000/api/wallets/1
+{"wallet_id":1}
+
+$ curl -X GET 127.0.0.1:8000/api/wallets/1/histories
+[{"history_id":1},{"history_id":2}]
+
+$ curl -X GET 127.0.0.1:8000/api/wallets/1/histories/2
+{"history_id":2}
 ```
