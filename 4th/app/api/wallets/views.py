@@ -1,4 +1,5 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from app.dependencies import APIKey
 from app.exceptions import NotFound
 from .schemas import Wallet
 from .histories.views import (
@@ -15,7 +16,10 @@ async def list_wallets() -> list[Wallet]:
     ]
 
 @router.get("/{wallet_id}")
-async def get_wallet(wallet_id: int) -> Wallet:
+async def get_wallet(
+    wallet_id: int,
+    api_key: APIKey,
+) -> Wallet:
     if wallet_id == 0:
         raise NotFound(
             resource="Wallet", resource_id=wallet_id

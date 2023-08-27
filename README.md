@@ -261,3 +261,39 @@ INFO:     Finished server process [43503]
 INFO:     Stopping reloader process [43501]
 (env) $
 ```
+
+### DI
+
+```bash
+# サーバ側
+(env) $ uvicorn app.main:app --reload
+INFO:     Will watch for changes in these directories: ['~/repos/github/try_FastAPI/4th']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [46992] using WatchFiles
+INFO:     Started server process [46994]
+INFO:     Waiting for application startup.
+startup!!!
+INFO:     Application startup complete.
+processing time: 0:00:00.000344
+INFO:     127.0.0.1:53724 - "GET /api/wallets/1 HTTP/1.1" 403 Forbidden
+
+# クライアント側
+$ curl -v -X GET 127.0.0.1:8000/api/wallets/1
+Note: Unnecessary use of -X or --request, GET is already inferred.
+*   Trying 127.0.0.1:8000...
+* Connected to 127.0.0.1 (127.0.0.1) port 8000 (#0)
+> GET /api/wallets/1 HTTP/1.1
+> Host: 127.0.0.1:8000
+> User-Agent: curl/7.81.0
+> Accept: */*
+> 
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 403 Forbidden
+< date: Sun, 27 Aug 2023 01:16:52 GMT
+< server: uvicorn
+< content-length: 30
+< content-type: application/json
+< 
+* Connection #0 to host 127.0.0.1 left intact
+{"detail":"Not authenticated"}
+```
