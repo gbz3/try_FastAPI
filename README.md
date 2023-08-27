@@ -297,3 +297,43 @@ Note: Unnecessary use of -X or --request, GET is already inferred.
 * Connection #0 to host 127.0.0.1 left intact
 {"detail":"Not authenticated"}
 ```
+
+### Background Tasks
+
+```bash
+# サーバ側
+$ uvicorn app.main:app --reload
+INFO:     Will watch for changes in these directories: ['~/repos/github/try_FastAPI/4th']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [53887] using WatchFiles
+INFO:     Started server process [53889]
+INFO:     Waiting for application startup.
+startup!!!
+INFO:     Application startup complete.
+processing time: 0:00:00.000641
+INFO:     127.0.0.1:44172 - "POST /api/wallets/export HTTP/1.1" 202 Accepted
+Exporting...
+Completed: hoge
+
+# クライアント側
+$ curl -v -X POST -H 'Content-Type: application/json' -d '{"dest": "hoge"}' 127.0.0.1:8000/api/wallets/export
+Note: Unnecessary use of -X or --request, POST is already inferred.
+*   Trying 127.0.0.1:8000...
+* Connected to 127.0.0.1 (127.0.0.1) port 8000 (#0)
+> POST /api/wallets/export HTTP/1.1
+> Host: 127.0.0.1:8000
+> User-Agent: curl/7.81.0
+> Accept: */*
+> Content-Type: application/json
+> Content-Length: 16
+> 
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 202 Accepted
+< date: Sun, 27 Aug 2023 01:47:57 GMT
+< server: uvicorn
+< content-length: 4
+< content-type: application/json
+< 
+* Connection #0 to host 127.0.0.1 left intact
+null
+```

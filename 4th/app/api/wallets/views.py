@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Depends
+import asyncio
+from fastapi import APIRouter, BackgroundTasks, Depends
 from app.dependencies import APIKey
 from app.exceptions import NotFound
-from .schemas import Wallet
+from .schemas import ExportRequest, Wallet
 from .histories.views import (
     router as histories_router,
 )
@@ -29,3 +30,17 @@ async def get_wallet(
 router.include_router(
     histories_router, prefix="/{wallet_id}"
 )
+
+async def export_wallets(dest: str) -> None:
+    print(f"Exporting...")
+    await asyncio.sleep(5)
+    print(f"Completed: {dest}")
+
+@router.post("/export", status_code=202)
+async def export(
+    data: ExportRequest,
+    background_tasks: BackgroundTasks,
+) -> None:
+    background_tasks.add_task(
+        export_wallets, data.dest
+    )
