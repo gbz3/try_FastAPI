@@ -436,4 +436,26 @@ WHERE wallets.name = ?
 [(3, 'Wallet 3')]
 >>> 
 
+# バインドパラメータ
+>>> stmt = text("""SELECT * FROM histories WHERE wallet_id = :wallet_id;""")
+>>> with engine.connect() as conn:
+...     result = conn.execute(stmt, {"wallet_id": 1})
+... 
+2023-09-03 07:54:38,711 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2023-09-03 07:54:38,711 INFO sqlalchemy.engine.Engine SELECT * FROM histories WHERE wallet_id = ?;
+2023-09-03 07:54:38,711 INFO sqlalchemy.engine.Engine [generated in 0.00060s] (1,)
+2023-09-03 07:54:38,712 INFO sqlalchemy.engine.Engine ROLLBACK
+>>> list(result)
+[(1, 'Tea', 140, 1), (2, 'Juice', 200, 1)]
+>>> stmt_multi = text("""INSERT INTO wallets(name) VALUES (:name);""")
+>>> params = [{"name": "Wallet 5"}, {"name": "Wallet 6"}]
+>>> with engine.begin() as conn:
+...     result = conn.execute(stmt_multi, params)
+... 
+2023-09-03 07:58:39,014 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2023-09-03 07:58:39,015 INFO sqlalchemy.engine.Engine INSERT INTO wallets(name) VALUES (?);
+2023-09-03 07:58:39,015 INFO sqlalchemy.engine.Engine [generated in 0.00064s] [('Wallet 5',), ('Wallet 6',)]
+2023-09-03 07:58:39,016 INFO sqlalchemy.engine.Engine COMMIT
+>>> 
+
 ```
