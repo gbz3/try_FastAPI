@@ -350,8 +350,8 @@ $ source env/bin/activate
 (env) $ pip install 'SQLAlchemy[aiosqlite]==2.0.18'
 
 # DB
-$ sudo apt install sqlite3
-$ sqlite3 database.db << EOF
+(env) $ sudo apt install sqlite3
+(env) $ sqlite3 database.db << EOF
 CREATE TABLE wallets (
  wallet_id INTEGER PRIMARY KEY AUTOINCREMENT,
  name VARCHAR(64) NOT NULL
