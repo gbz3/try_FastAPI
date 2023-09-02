@@ -456,6 +456,21 @@ WHERE wallets.name = ?
 2023-09-03 07:58:39,015 INFO sqlalchemy.engine.Engine INSERT INTO wallets(name) VALUES (?);
 2023-09-03 07:58:39,015 INFO sqlalchemy.engine.Engine [generated in 0.00064s] [('Wallet 5',), ('Wallet 6',)]
 2023-09-03 07:58:39,016 INFO sqlalchemy.engine.Engine COMMIT
->>> 
+>>> quit()
+(env) $ deactivate
+$ 
+```
+
+## 第６章 本格的な Web API
+
+```bash
+# サーバ側
+$ mkdir 6th && cd 6th
+$ python3.10 -m venv env
+$ source env/bin/activate
+(env) $ pip install fastapi==0.100.0 'SQLAlchemy[aiosqlite]==2.0.18' 'uvicorn[standard]==0.22.0'
+(env) $ mkdir app
+(env) $ touch app/{main,__init__}.py
+(env) $ uvicorn app.main:app --reload
 
 ```
