@@ -337,3 +337,40 @@ Note: Unnecessary use of -X or --request, POST is already inferred.
 * Connection #0 to host 127.0.0.1 left intact
 null
 ```
+
+## 第5章 SQLAlchemy
+
+### install
+
+```bash
+# サーバ側
+$ mkdir 5th && cd 5th
+$ python3.10 -m venv env
+$ source env/bin/activate
+(env) $ pip install 'SQLAlchemy[aiosqlite]==2.0.18'
+
+# DB
+$ sudo apt install sqlite3
+$ sqlite3 database.db << EOF
+CREATE TABLE wallets (
+ wallet_id INTEGER PRIMARY KEY AUTOINCREMENT,
+ name VARCHAR(64) NOT NULL
+);
+CREATE TABLE histories (
+ history_id INTEGER PRIMARY KEY AUTOINCREMENT,
+ name VARCHAR(64) NOT NULL,
+ amount INTEGER NOT NULL,
+ wallet_id INTEGER NOT NULL,
+ FOREIGN KEY (wallet_id) REFERENCES wallets(wallet_id)
+);
+INSERT INTO wallets(name) VALUES
+ ('Wallet 1'),
+ ('Wallet 2')
+;
+INSERT INTO histories(name, amount, wallet_id) VALUES
+ ('Tea', 140, 1),
+ ('Juice', '200', 1)
+;
+EOF
+
+```
