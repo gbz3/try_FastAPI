@@ -343,13 +343,11 @@ null
 ### install
 
 ```bash
-# サーバ側
+# DB
 $ mkdir 5th && cd 5th
 $ python3.10 -m venv env
 $ source env/bin/activate
 (env) $ pip install 'SQLAlchemy[aiosqlite]==2.0.18'
-
-# DB
 (env) $ sudo apt install sqlite3
 (env) $ sqlite3 database.db << EOF
 CREATE TABLE wallets (
@@ -372,5 +370,70 @@ INSERT INTO histories(name, amount, wallet_id) VALUES
  ('Juice', '200', 1)
 ;
 EOF
+
+# シンプルなクエリの実行
+(env) $ python3
+>>> from sqlalchemy import create_engine, text
+>>> engine = create_engine("sqlite+pysqlite:///database.db", echo=True)
+>>> stmt = text("SELECT * FROM wallets;")
+>>> with engine.connect() as conn:
+...     result = conn.execute(stmt)
+... 
+2023-09-03 07:34:47,800 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2023-09-03 07:34:47,801 INFO sqlalchemy.engine.Engine SELECT * FROM wallets;
+2023-09-03 07:34:47,801 INFO sqlalchemy.engine.Engine [generated in 0.00043s] ()
+2023-09-03 07:34:47,802 INFO sqlalchemy.engine.Engine ROLLBACK
+>>> list(result)
+[(1, 'Wallet 1'), (2, 'Wallet 2')]
+>>> stmt = text("""INSERT INTO wallets(name) VALUES('Wallet 3'), ('Wallet 4');""")
+>>> with engine.begin() as conn:
+...     _ = conn.execute(stmt)
+... 
+2023-09-03 07:38:49,789 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2023-09-03 07:38:49,790 INFO sqlalchemy.engine.Engine INSERT INTO wallets(name) VALUES('Wallet 3'), ('Wallet 4');
+2023-09-03 07:38:49,790 INFO sqlalchemy.engine.Engine [generated in 0.00028s] ()
+2023-09-03 07:38:49,790 INFO sqlalchemy.engine.Engine COMMIT
+>>> from sqlalchemy import MetaData, Table, select
+>>> meta = MetaData()
+>>> wallets = Table("wallets", meta, autoload_with=engine)
+2023-09-03 07:41:18,906 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2023-09-03 07:41:18,907 INFO sqlalchemy.engine.Engine PRAGMA main.table_xinfo("wallets")
+2023-09-03 07:41:18,907 INFO sqlalchemy.engine.Engine [raw sql] ()
+2023-09-03 07:41:18,908 INFO sqlalchemy.engine.Engine SELECT sql FROM  (SELECT * FROM sqlite_master UNION ALL   SELECT * FROM sqlite_temp_master) WHERE name = ? AND type in ('table', 'view')
+2023-09-03 07:41:18,908 INFO sqlalchemy.engine.Engine [raw sql] ('wallets',)
+2023-09-03 07:41:18,909 INFO sqlalchemy.engine.Engine PRAGMA main.foreign_key_list("wallets")
+2023-09-03 07:41:18,909 INFO sqlalchemy.engine.Engine [raw sql] ()
+2023-09-03 07:41:18,909 INFO sqlalchemy.engine.Engine PRAGMA temp.foreign_key_list("wallets")
+2023-09-03 07:41:18,909 INFO sqlalchemy.engine.Engine [raw sql] ()
+2023-09-03 07:41:18,909 INFO sqlalchemy.engine.Engine SELECT sql FROM  (SELECT * FROM sqlite_master UNION ALL   SELECT * FROM sqlite_temp_master) WHERE name = ? AND type in ('table', 'view')
+2023-09-03 07:41:18,909 INFO sqlalchemy.engine.Engine [raw sql] ('wallets',)
+2023-09-03 07:41:18,910 INFO sqlalchemy.engine.Engine PRAGMA main.index_list("wallets")
+2023-09-03 07:41:18,910 INFO sqlalchemy.engine.Engine [raw sql] ()
+2023-09-03 07:41:18,910 INFO sqlalchemy.engine.Engine PRAGMA temp.index_list("wallets")
+2023-09-03 07:41:18,910 INFO sqlalchemy.engine.Engine [raw sql] ()
+2023-09-03 07:41:18,910 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("wallets")
+2023-09-03 07:41:18,910 INFO sqlalchemy.engine.Engine [raw sql] ()
+2023-09-03 07:41:18,910 INFO sqlalchemy.engine.Engine PRAGMA main.index_list("wallets")
+2023-09-03 07:41:18,910 INFO sqlalchemy.engine.Engine [raw sql] ()
+2023-09-03 07:41:18,910 INFO sqlalchemy.engine.Engine PRAGMA temp.index_list("wallets")
+2023-09-03 07:41:18,910 INFO sqlalchemy.engine.Engine [raw sql] ()
+2023-09-03 07:41:18,910 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("wallets")
+2023-09-03 07:41:18,911 INFO sqlalchemy.engine.Engine [raw sql] ()
+2023-09-03 07:41:18,911 INFO sqlalchemy.engine.Engine SELECT sql FROM  (SELECT * FROM sqlite_master UNION ALL   SELECT * FROM sqlite_temp_master) WHERE name = ? AND type in ('table', 'view')
+2023-09-03 07:41:18,911 INFO sqlalchemy.engine.Engine [raw sql] ('wallets',)
+2023-09-03 07:41:18,912 INFO sqlalchemy.engine.Engine ROLLBACK
+>>> stmt = select(wallets).where(wallets.c.name == "Wallet 3")
+>>> with engine.connect() as conn:
+...     result = conn.execute(stmt)
+... 
+2023-09-03 07:45:23,208 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2023-09-03 07:45:23,208 INFO sqlalchemy.engine.Engine SELECT wallets.wallet_id, wallets.name 
+FROM wallets 
+WHERE wallets.name = ?
+2023-09-03 07:45:23,208 INFO sqlalchemy.engine.Engine [generated in 0.00052s] ('Wallet 3',)
+2023-09-03 07:45:23,209 INFO sqlalchemy.engine.Engine ROLLBACK
+>>> list(result)
+[(3, 'Wallet 3')]
+>>> 
 
 ```
