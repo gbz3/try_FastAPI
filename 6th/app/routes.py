@@ -5,7 +5,7 @@ from fastapi.routing import APIRoute
 logger = logging.getLogger(__name__)
 
 class LoggingRoute(APIRoute):
-    def get_route_hander(self):
+    def get_route_handler(self):
         original = super().get_route_handler()
 
         async def custom_route_handler(request):
