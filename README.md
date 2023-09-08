@@ -473,4 +473,7 @@ $ source env/bin/activate
 (env) $ touch app/{main,__init__}.py
 (env) $ uvicorn app.main:app --reload
 
+# テストケース追加
+(env) $ pip install pytest==7.4.0 httpx==0.24.1
+(env) $ 
 ```
